@@ -1,0 +1,18 @@
+{
+  "employees": [
+    {
+      "id": "sample-1",
+      "name": "MANIKANTA S",
+      "dateJoined": "2025-09-01",
+      "department": "Engineering",
+      "subDepartment": "N/A",
+      "designation": "Junior Software Engineer",
+      "paymentMode": "Bank",
+      "pan": "OOMPS7451K",
+      "fixedSalary": 25934.17,
+      "employeeNumber": "XF25163",
+      "uan": "10225006970",
+      "pfNumber": "KNMLP27695700001016"
+    }
+  ]
+}

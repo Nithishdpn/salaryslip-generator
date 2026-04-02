@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate payslip</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@9..40,400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-brand" href="index.html" aria-label="Salary Slip home">
+          <img src="assets/logo.png" alt="PJN Technologies" class="site-logo" decoding="async" />
+          <span class="site-brand-text">
+            <span class="site-title">Salary Slip</span>
+            <span class="site-tagline">Payslip generator</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="add-employee.html">Add employee</a>
+          <a href="generate-payslip.html" aria-current="page">Generate payslip</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page page-app page-app--wide">
+      <header class="page-hero">
+        <p class="eyebrow">Monthly payroll</p>
+        <h1 class="page-title">Generate payslip</h1>
+        <p class="page-subtitle">
+          Search by employee name, set the pay period and attendance, then preview before you print or save as PDF.
+        </p>
+      </header>
+
+      <div class="card form-card form-card-elevated form-card--wide">
+        <div class="form-card-head">
+          <h2 class="form-card-heading">Run payslip</h2>
+          <p class="form-card-lead"><span class="req-mark">*</span> Required fields</p>
+        </div>
+
+        <form id="genForm" class="form-generate" novalidate>
+          <section class="form-section" aria-labelledby="sec-emp-period">
+            <h3 id="sec-emp-period" class="form-section-title">Employee &amp; pay period</h3>
+            <div class="form-grid form-grid--employee">
+              <label class="form-field form-field--span">
+                <span class="form-label">Employee name <abbr class="req" title="required">*</abbr></span>
+                <input
+                  id="empName"
+                  name="empName"
+                  type="text"
+                  list="nameList"
+                  required
+                  placeholder="Start typing — pick from suggestions or exact saved name"
+                  autocomplete="off"
+                />
+                <datalist id="nameList"></datalist>
+                <span class="form-hint">Must match a name from your directory (JSON + saved employees).</span>
+              </label>
+              <label class="form-field">
+                <span class="form-label">Payslip month <abbr class="req" title="required">*</abbr></span>
+                <select id="month" name="month" required></select>
+              </label>
+              <label class="form-field">
+                <span class="form-label">Year <abbr class="req" title="required">*</abbr></span>
+                <input id="year" name="year" type="number" min="2000" max="2100" required placeholder="2026" />
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="sec-attendance">
+            <h3 id="sec-attendance" class="form-section-title">Attendance</h3>
+            <div class="form-grid form-grid--employee">
+              <label class="form-field">
+                <span class="form-label">Total working days in month <abbr class="req" title="required">*</abbr></span>
+                <input name="totalWorkingDays" type="number" min="0.5" step="0.5" value="31" required />
+                <span class="form-hint">Company working days in this month (e.g. 22 or 31).</span>
+              </label>
+              <label class="form-field">
+                <span class="form-label">Loss of pay (LOP) days</span>
+                <input name="lossOfPayDays" type="number" min="0" step="0.5" value="0" />
+                <span class="form-hint">Unpaid leave; salary is pro‑rated from fixed gross.</span>
+              </label>
+            </div>
+          </section>
+
+          <footer class="form-footer form-footer--single">
+            <button type="button" class="btn primary btn-lg" id="btnPreview">View payslip</button>
+          </footer>
+        </form>
+
+        <p id="genMessage" class="form-message form-message--banner error" hidden></p>
+
+        <div class="form-callout" role="note">
+          <div class="form-callout-icon" aria-hidden="true">i</div>
+          <div class="form-callout-body">
+            <strong>Data source</strong>
+            <p>
+              Names come from <code>data/employees.json</code> plus employees saved in this browser. If the list is
+              empty, use a local server (for example Live Server at <code>127.0.0.1:5500</code>) — opening the HTML file
+              directly as <code>file://</code> often blocks loading JSON.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="generate-payslip.js"></script>
+  </body>
+</html>

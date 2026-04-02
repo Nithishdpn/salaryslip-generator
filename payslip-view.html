@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payslip preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@9..40,400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="payslip.css" />
+  </head>
+  <body class="payslip-page">
+    <header class="site-header no-print">
+      <div class="site-header-inner">
+        <a class="site-brand" href="index.html" aria-label="Salary Slip home">
+          <img src="assets/logo.png" alt="PJN Technologies" class="site-logo" decoding="async" />
+          <span class="site-brand-text">
+            <span class="site-title">Salary Slip</span>
+            <span class="site-tagline">Payslip generator</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="add-employee.html">Add employee</a>
+          <a href="generate-payslip.html">Generate payslip</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="toolbar no-print">
+      <a class="btn" href="generate-payslip.html">← Back</a>
+      <button type="button" class="btn primary" id="btnPrint">Download / Print PDF</button>
+    </div>
+
+    <main class="page">
+      <section class="payslip" id="payslip">
+        <header class="top-header">
+          <div class="title-wrap">
+            <h1><span>PAYSLIP</span> <span id="monthYear"></span></h1>
+            <p class="company" id="companyName"></p>
+            <p class="small" id="companyAddress1"></p>
+            <p class="small" id="companyAddress2"></p>
+            <p class="small" id="companyAddress3"></p>
+          </div>
+          <div class="logo-wrap payslip-logo-wrap" aria-hidden="true">
+            <img src="assets/logowhite.png" alt="" class="payslip-logo" decoding="async" />
+          </div>
+        </header>
+
+        <section class="employee-section">
+          <h2 id="employeeName"></h2>
+          <div class="info-grid" id="employeeInfoGrid"></div>
+        </section>
+
+        <section class="salary-section">
+          <h3>SALARY DETAILS</h3>
+          <div class="days-grid" id="daysGrid"></div>
+        </section>
+
+        <section class="breakup payslip-columns">
+          <div class="panel left-panel">
+            <h4 class="column-head">EARNINGS</h4>
+            <div id="earningsList" class="row-list"></div>
+            <div class="row total">
+              <span>Total Earnings (A)</span>
+              <strong id="earningsTotal"></strong>
+            </div>
+          </div>
+          <div class="panel right-panel">
+            <h4 class="column-head">TAXES &amp; DEDUCTIONS</h4>
+            <div id="deductionList" class="row-list deduction-list"></div>
+            <div class="row total">
+              <span>Total Taxes &amp; Deductions (B)</span>
+              <strong id="deductionTotal"></strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="net-section highlight-net">
+          <div class="row total net-row">
+            <span class="net-label">Net Salary Payable (A - B)</span>
+            <strong id="netPay" class="net-amount"></strong>
+          </div>
+          <div class="row words net-words-row">
+            <span>Net Salary in words</span>
+            <strong id="netWords"></strong>
+          </div>
+        </section>
+
+        <footer class="footer-note">
+          <p class="payslip-note">
+            <strong>Note :</strong>
+            <em> All amounts displayed in this payslip are in <strong>INR</strong></em>
+          </p>
+          <p class="payslip-disclaimer">*This is computer generated statement, does not require signature.</p>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="payslip-view.js"></script>
+  </body>
+</html>

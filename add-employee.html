@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add employee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@9..40,400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-brand" href="index.html" aria-label="Salary Slip home">
+          <img src="assets/logo.png" alt="PJN Technologies" class="site-logo" decoding="async" />
+          <span class="site-brand-text">
+            <span class="site-title">Salary Slip</span>
+            <span class="site-tagline">Payslip generator</span>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="index.html">Home</a>
+          <a href="add-employee.html" aria-current="page">Add employee</a>
+          <a href="generate-payslip.html">Generate payslip</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page page-app page-app--wide">
+      <header class="page-hero">
+        <p class="eyebrow">Directory</p>
+        <h1 class="page-title">Add employee</h1>
+        <p class="page-subtitle">
+          Capture role, salary, and compliance fields once — they flow into every payslip you generate.
+        </p>
+      </header>
+
+      <div class="card form-card form-card-elevated form-card--wide">
+        <div class="form-card-head">
+          <h2 class="form-card-heading">Employee record</h2>
+          <p class="form-card-lead"><span class="req-mark">*</span> Required fields</p>
+        </div>
+
+        <form id="employeeForm" class="form-employee" novalidate>
+          <section class="form-section" aria-labelledby="sec-profile">
+            <h3 id="sec-profile" class="form-section-title">Profile</h3>
+            <div class="form-grid form-grid--employee">
+              <label class="form-field">
+                <span class="form-label">Full name <abbr class="req" title="required">*</abbr></span>
+                <input name="name" type="text" required autocomplete="name" placeholder="e.g. Priya Sharma" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Date of joining <abbr class="req" title="required">*</abbr></span>
+                <input name="dateJoined" type="date" required />
+                <span class="form-hint">Use calendar or type YYYY-MM-DD</span>
+              </label>
+              <label class="form-field">
+                <span class="form-label">Department <abbr class="req" title="required">*</abbr></span>
+                <input name="department" type="text" required placeholder="e.g. Engineering" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Sub department</span>
+                <input name="subDepartment" type="text" placeholder="N/A or team name" />
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="sec-role">
+            <h3 id="sec-role" class="form-section-title">Role &amp; payroll</h3>
+            <div class="form-grid form-grid--employee">
+              <label class="form-field">
+                <span class="form-label">Designation <abbr class="req" title="required">*</abbr></span>
+                <input name="designation" type="text" required placeholder="e.g. Software Engineer" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Payment mode</span>
+                <input name="paymentMode" type="text" value="Bank" placeholder="Bank" />
+                <span class="form-hint">Default is bank transfer</span>
+              </label>
+              <label class="form-field form-field--span">
+                <span class="form-label">Fixed salary (monthly gross, INR) <abbr class="req" title="required">*</abbr></span>
+                <input name="fixedSalary" type="number" min="0" step="0.01" required placeholder="0.00" />
+                <span class="form-hint">Monthly gross before pro‑rating for LOP</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="sec-compliance">
+            <h3 id="sec-compliance" class="form-section-title">Compliance &amp; IDs</h3>
+            <div class="form-grid form-grid--employee">
+              <label class="form-field">
+                <span class="form-label">PAN <abbr class="req" title="required">*</abbr></span>
+                <input name="pan" type="text" required maxlength="10" title="e.g. ABCDE1234F" placeholder="ABCDE1234F" class="input-mono" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Employee number <span class="form-optional">optional</span></span>
+                <input name="employeeNumber" type="text" placeholder="Leave blank to auto-generate" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">UAN <span class="form-optional">optional</span></span>
+                <input name="uan" type="text" placeholder="12-digit UAN if available" inputmode="numeric" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">PF number <span class="form-optional">optional</span></span>
+                <input name="pfNumber" type="text" placeholder="Provident fund account number" />
+              </label>
+            </div>
+          </section>
+
+          <footer class="form-footer">
+            <button type="submit" class="btn primary btn-lg">Save employee</button>
+            <a class="btn btn-lg btn-outline" href="generate-payslip.html">Go to payslip</a>
+          </footer>
+        </form>
+        <p id="formMessage" class="form-message" hidden></p>
+      </div>
+    </main>
+
+    <script type="module" src="add-employee.js"></script>
+  </body>
+</html>
