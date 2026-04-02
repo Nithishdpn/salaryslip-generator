@@ -39,11 +39,11 @@ export function computePayslipPayload({ employee, monthYear, totalWorkingDays, l
 
   const basic = earnings[0]?.amount || 0;
 
-  // Remove PF logic and contributions
-  const pt = gross >= 20000 ? round2(200 * ratio) : 0;
+  // Fixed Professional Tax as per user requirement
+  const pt = 200;
 
   const contributions = [];
-  const deductions = pt > 0 ? [{ label: "Professional Tax", amount: pt }] : [];
+  const deductions = [{ label: "Professional Tax", amount: pt }];
 
   const totalEarnings = earnings.reduce((a, x) => a + x.amount, 0);
   const totalB = contributions.reduce((a, x) => a + x.amount, 0);
