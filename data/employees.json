@@ -1,18 +1,32 @@
 {
   "employees": [
     {
-      "id": "sample-1",
-      "name": "MANIKANTA S",
-      "dateJoined": "2025-09-01",
-      "department": "Engineering",
-      "subDepartment": "N/A",
-      "designation": "Junior Software Engineer",
+      "id": "sample-2",
+      "name": "PRIYA SHARMA",
+      "dateJoined": "2024-03-15",
+      "department": "Human Resources",
+      "subDepartment": "Talent Acquisition",
+      "designation": "HR Executive",
       "paymentMode": "Bank",
-      "pan": "OOMPS7451K",
-      "fixedSalary": 25934.17,
-      "employeeNumber": "XF25163",
-      "uan": "10225006970",
-      "pfNumber": "KNMLP27695700001016"
+      "pan": "ABCDE1234F",
+      "fixedSalary": 32000.00,
+      "employeeNumber": "XF25164",
+      "uan": "10225006971",
+      "pfNumber": "KNMLP27695700001017"
+    },
+    {
+      "id": "sample-3",
+      "name": "RAHUL DESAI",
+      "dateJoined": "2023-11-01",
+      "department": "Marketing",
+      "subDepartment": "Digital Marketing",
+      "designation": "Marketing Manager",
+      "paymentMode": "Bank",
+      "pan": "FGHIJ5678K",
+      "fixedSalary": 48500.50,
+      "employeeNumber": "XF25165",
+      "uan": "10225006972",
+      "pfNumber": "KNMLP27695700001018"
     }
   ]
 }
