@@ -1,5 +1,6 @@
 export function inr(amount) {
-  return amount.toLocaleString("en-IN", {
+  if (amount === undefined || amount === null) return "0.00";
+  return Number(amount).toLocaleString("en-IN", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -8,27 +9,27 @@ export function inr(amount) {
 export function numberToWordsIndian(num) {
   const a = [
     "",
-    "One",
-    "Two",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
-    "Eight",
-    "Nine",
-    "Ten",
-    "Eleven",
-    "Twelve",
-    "Thirteen",
-    "Fourteen",
-    "Fifteen",
-    "Sixteen",
-    "Seventeen",
-    "Eighteen",
-    "Nineteen",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
   ];
-  const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+  const b = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
 
   function twoDigits(n) {
     if (n < 20) return a[n];
@@ -38,10 +39,10 @@ export function numberToWordsIndian(num) {
   function threeDigits(n) {
     if (n === 0) return "";
     if (n < 100) return twoDigits(n);
-    return `${a[Math.floor(n / 100)]} Hundred${n % 100 ? ` ${twoDigits(n % 100)}` : ""}`;
+    return `${a[Math.floor(n / 100)]} hundred${n % 100 ? ` ${twoDigits(n % 100)}` : ""}`;
   }
 
-  if (num === 0) return "Zero Rupees only";
+  if (num === 0) return "(Rupees zero only)";
 
   let n = Math.floor(num);
   const crore = Math.floor(n / 10000000);
@@ -53,102 +54,92 @@ export function numberToWordsIndian(num) {
   const rest = n;
 
   const parts = [];
-  if (crore) parts.push(`${twoDigits(crore)} Crore`);
-  if (lakh) parts.push(`${twoDigits(lakh)} Lakh`);
-  if (thousand) parts.push(`${twoDigits(thousand)} Thousand`);
+  if (crore) parts.push(`${twoDigits(crore)} crore`);
+  if (lakh) parts.push(`${twoDigits(lakh)} lakh`);
+  if (thousand) parts.push(`${twoDigits(thousand)} thousand`);
   if (rest) parts.push(threeDigits(rest));
 
-  return `${parts.join(" ")} Rupees only`;
+  return `(Rupees ${parts.join(" ")} only)`;
 }
 
 function setText(id, text) {
   const el = document.getElementById(id);
-  if (el) el.textContent = text;
+  if (el) el.textContent = text || "—";
 }
 
-function renderRows(containerId, rows) {
-  const target = document.getElementById(containerId);
-  if (!target) return;
-  target.innerHTML = rows
-    .map(
-      (item) => `
-      <div class="row">
-        <span>${item.label}</span>
-        <strong>${inr(item.amount)}</strong>
-      </div>
-    `
-    )
-    .join("");
-}
+export function renderPayslip(p) {
+  // Header - Always enforce PJN TECHNOLOGIES PVT LTD
+  setText("companyName", "PJN TECHNOLOGIES PVT LTD");
+  setText("companyAddress1", "Room No 2, 2nd floor opp to Tea Master Nehru Road, kullapa circle,");
+  setText("companyAddress2", "Ramaswamipalya, Kammanahalli, Bengaluru,");
+  setText("companyAddress3", "Karnataka 560084");
+  setText("monthYear", p.monthYear);
 
-function renderInfoGrid(employee) {
-  const grid = document.getElementById("employeeInfoGrid");
-  if (!grid) return;
-  const fields = [
-    ["Employee Number", employee.employeeNumber],
-    ["Date Joined", employee.dateJoined],
-    ["Department", employee.department],
-    ["Sub Department", employee.subDepartment],
-    ["Designation", employee.designation],
-    ["Payment Mode", employee.paymentMode],
-    ["UAN", employee.uan],
-    ["PF Number", employee.pfNumber],
-    ["PAN", employee.pan],
-  ];
+  // Table 1: Employee Details
+  const emp = p.employee || {};
+  setText("empCode", emp.employeeNumber);
+  setText("empName", emp.name);
+  setText("dateJoined", emp.dateJoined);
+  setText("designation", emp.designation);
+  setText("department", emp.department);
+  setText("location", emp.location || "BENGALURU");
 
-  grid.innerHTML = fields
-    .map(
-      ([label, value]) => `
-      <div class="info-item">
-        <span class="label">${label}</span>
-        <span class="value small-v">${value}</span>
-      </div>
-    `
-    )
-    .join("");
-}
+  setText("payMode", emp.paymentMode || "BANK TRANSFER");
+  setText("bankName", emp.bankName || "HDFC");
+  setText("bankAcc", emp.bankAccountNo || "—");
+  setText("pfNo", emp.pfNumber || "—");
+  setText("panNo", emp.pan || "—");
+  setText("uanNo", emp.uan || "—");
 
-function renderDaysGrid(days) {
-  const grid = document.getElementById("daysGrid");
-  if (!grid) return;
-  const fields = [
-    ["Actual Payable Days", days.actualPayableDays],
-    ["Total Working Days", days.totalWorkingDays],
-    ["Loss Of Pay Days", days.lossOfPayDays],
-    ["Days Payable", days.daysPayable],
-  ];
+  // Table 2: Attendance Details
+  const d = p.days || {};
+  setText("stdDays", Number(d.standardDays || 31).toFixed(1));
+  setText("wrkDays", Number(d.workedDays || 31).toFixed(1));
+  setText("lopDays", Number(d.lopDays || 0).toFixed(1));
+  setText("clDays", Number(d.clDays || 0).toFixed(1));
+  setText("slDays", Number(d.slDays || 0).toFixed(1));
+  setText("plDays", Number(d.plDays || 0).toFixed(1));
 
-  grid.innerHTML = fields
-    .map(
-      ([label, value]) => `
-      <div class="days-item">
-        <span class="label">${label}</span>
-        <span class="value"><strong>${Number(value).toFixed(2)}</strong></span>
-      </div>
-    `
-    )
-    .join("");
-}
+  // Table 3: Earnings & Deductions
+  const earnings = p.earnings || [];
+  const deductions = p.deductions || [];
+  const maxRows = Math.max(earnings.length, deductions.length, 5);
 
-export function renderPayslip(payslipData) {
-  setText("monthYear", payslipData.monthYear);
-  setText("companyName", payslipData.company.name);
-  setText("companyAddress1", payslipData.company.address1);
-  setText("companyAddress2", payslipData.company.address2);
-  setText("companyAddress3", payslipData.company.address3);
-  setText("employeeName", payslipData.employee.name);
+  const tbody = document.getElementById("payTableBody");
+  if (tbody) {
+    let rowsHtml = "";
+    for (let i = 0; i < maxRows; i++) {
+      const earn = earnings[i];
+      const ded = deductions[i];
 
-  renderInfoGrid(payslipData.employee);
-  renderDaysGrid(payslipData.days);
-  renderRows("earningsList", payslipData.earnings);
-  renderRows("deductionList", payslipData.deductions);
+      const earnName = earn ? earn.label : "";
+      const earnFixed = earn ? inr(earn.fixedAmount) : "";
+      const earnEarned = earn ? inr(earn.amount) : "";
 
-  const earningsTotal = payslipData.earnings.reduce((acc, item) => acc + item.amount, 0);
-  const deductionTotal = payslipData.deductions.reduce((acc, item) => acc + item.amount, 0);
-  const netPay = earningsTotal - deductionTotal;
+      const dedName = ded ? ded.label : "";
+      const dedAmt = ded ? inr(ded.amount) : "";
 
-  setText("earningsTotal", inr(earningsTotal));
-  setText("deductionTotal", inr(deductionTotal));
-  setText("netPay", inr(netPay));
-  setText("netWords", numberToWordsIndian(netPay));
+      rowsHtml += `
+        <tr>
+          <td class="item-col">${earnName}</td>
+          <td class="num-col">${earnFixed}</td>
+          <td class="num-col">${earnEarned}</td>
+          <td class="item-col">${dedName}</td>
+          <td class="num-col">${dedAmt}</td>
+        </tr>
+      `;
+    }
+    tbody.innerHTML = rowsHtml;
+  }
+
+  // Totals
+  const totals = p.totals || {};
+  setText("totFixed", totals.fixedEarnings ? inr(totals.fixedEarnings) : "");
+  setText("totEarned", totals.earnedEarnings ? inr(totals.earnedEarnings) : inr(totals.earnings));
+  setText("totDeductions", inr(totals.deductions || 0));
+
+  // Net Pay & Words
+  const net = totals.netPay !== undefined ? totals.netPay : totals.net;
+  setText("netPay", inr(net));
+  setText("netWords", numberToWordsIndian(net));
 }

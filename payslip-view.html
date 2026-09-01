@@ -38,65 +38,146 @@
 
     <main class="page">
       <section class="payslip" id="payslip">
-        <header class="top-header">
-          <div class="title-wrap">
-            <h1><span>PAYSLIP</span> <span id="monthYear"></span></h1>
-            <p class="company" id="companyName"></p>
-            <p class="small" id="companyAddress1"></p>
-            <p class="small" id="companyAddress2"></p>
-            <p class="small" id="companyAddress3"></p>
+        <!-- Header Block -->
+        <header class="payslip-header">
+          <div class="company-wrap">
+            <h1 class="payslip-title">
+              <strong>PAYSLIP</strong> <span id="monthYear">MAY 2026</span>
+            </h1>
+            <h2 id="companyName" class="company-name">PJN TECHNOLOGIES PVT LTD</h2>
+            <p id="companyAddress1" class="company-addr">Room No 2, 2nd floor opp to Tea Master Nehru Road, kullapa circle,</p>
+            <p id="companyAddress2" class="company-addr">Ramaswamipalya, Kammanahalli, Bengaluru,</p>
+            <p id="companyAddress3" class="company-addr">Karnataka 560084</p>
           </div>
-          <div class="logo-wrap payslip-logo-wrap" aria-hidden="true">
-            <img src="assets/logowhite.png" alt="" class="payslip-logo" decoding="async" />
+          <div class="logo-wrap">
+            <img src="assets/logowhite.png" alt="PJN Technologies Logo" class="payslip-logo" decoding="async" />
           </div>
         </header>
 
-        <section class="employee-section">
-          <h2 id="employeeName"></h2>
-          <div class="info-grid" id="employeeInfoGrid"></div>
-        </section>
+        <!-- Table 1: Employee & Bank Details -->
+        <table class="grid-table emp-table">
+          <tbody>
+            <tr>
+              <td class="lbl">Emp Code</td>
+              <td class="sep">:</td>
+              <td class="val" id="empCode"></td>
+              <td class="lbl">Pay Mode</td>
+              <td class="sep">:</td>
+              <td class="val" id="payMode"></td>
+            </tr>
+            <tr>
+              <td class="lbl">Emp Name</td>
+              <td class="sep">:</td>
+              <td class="val" id="empName"></td>
+              <td class="lbl">Bank Name</td>
+              <td class="sep">:</td>
+              <td class="val" id="bankName"></td>
+            </tr>
+            <tr>
+              <td class="lbl">Date of Joining</td>
+              <td class="sep">:</td>
+              <td class="val" id="dateJoined"></td>
+              <td class="lbl">Bank A/C No</td>
+              <td class="sep">:</td>
+              <td class="val" id="bankAcc"></td>
+            </tr>
+            <tr>
+              <td class="lbl">Designation</td>
+              <td class="sep">:</td>
+              <td class="val" id="designation"></td>
+              <td class="lbl">PF No</td>
+              <td class="sep">:</td>
+              <td class="val" id="pfNo"></td>
+            </tr>
+            <tr>
+              <td class="lbl">Department</td>
+              <td class="sep">:</td>
+              <td class="val" id="department"></td>
+              <td class="lbl">PAN No</td>
+              <td class="sep">:</td>
+              <td class="val" id="panNo"></td>
+            </tr>
+            <tr>
+              <td class="lbl">Location</td>
+              <td class="sep">:</td>
+              <td class="val" id="location"></td>
+              <td class="lbl">UAN No</td>
+              <td class="sep">:</td>
+              <td class="val" id="uanNo"></td>
+            </tr>
+          </tbody>
+        </table>
 
-        <section class="salary-section">
-          <h3>SALARY DETAILS</h3>
-          <div class="days-grid" id="daysGrid"></div>
-        </section>
+        <!-- Table 2: Attendance Summary Grid -->
+        <table class="grid-table attendance-table">
+          <tbody>
+            <tr>
+              <td class="lbl-att">Standard Days</td>
+              <td class="val-att" id="stdDays">31.0</td>
+              <td class="lbl-att">Worked Days</td>
+              <td class="val-att" id="wrkDays">31.0</td>
+              <td class="lbl-att">LOP Days</td>
+              <td class="val-att" id="lopDays">0.0</td>
+            </tr>
+            <tr>
+              <td class="lbl-att">CL Days</td>
+              <td class="val-att" id="clDays">0.0</td>
+              <td class="lbl-att">SL Days</td>
+              <td class="val-att" id="slDays">0.0</td>
+              <td class="lbl-att">PL Days</td>
+              <td class="val-att" id="plDays">0.0</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <section class="breakup payslip-columns">
-          <div class="panel left-panel">
-            <h4 class="column-head">EARNINGS</h4>
-            <div id="earningsList" class="row-list"></div>
-            <div class="row total">
-              <span>Total Earnings (A)</span>
-              <strong id="earningsTotal"></strong>
-            </div>
-          </div>
-          <div class="panel right-panel">
-            <h4 class="column-head">TAXES &amp; DEDUCTIONS</h4>
-            <div id="deductionList" class="row-list deduction-list"></div>
-            <div class="row total">
-              <span>Total Taxes &amp; Deductions (B)</span>
-              <strong id="deductionTotal"></strong>
-            </div>
-          </div>
-        </section>
+        <!-- Table 3: Main Earnings & Deductions Dual Table -->
+        <table class="grid-table main-pay-table">
+          <thead>
+            <tr>
+              <th colspan="3" class="col-head-earnings">EARNINGS</th>
+              <th colspan="2" class="col-head-deductions">DEDUCTIONS</th>
+            </tr>
+            <tr class="sub-head-row">
+              <th class="item-col"></th>
+              <th class="num-col">Fixed (Rs)</th>
+              <th class="num-col">Earned (Rs)</th>
+              <th class="item-col"></th>
+              <th class="num-col">Amount (Rs)</th>
+            </tr>
+          </thead>
+          <tbody id="payTableBody">
+            <!-- Dynamically rendered -->
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td class="total-lbl">Total Earnings</td>
+              <td class="num-col bold" id="totFixed"></td>
+              <td class="num-col bold" id="totEarned"></td>
+              <td class="total-lbl">Total Deductions</td>
+              <td class="num-col bold" id="totDeductions"></td>
+            </tr>
+          </tfoot>
+        </table>
 
-        <section class="net-section highlight-net">
-          <div class="row total net-row">
-            <span class="net-label">Net Salary Payable (A - B)</span>
-            <strong id="netPay" class="net-amount"></strong>
-          </div>
-          <div class="row words net-words-row">
-            <span>Net Salary in words</span>
-            <strong id="netWords"></strong>
-          </div>
-        </section>
+        <!-- Table 4: Net Pay Row & Words -->
+        <table class="grid-table net-pay-table">
+          <tbody>
+            <tr>
+              <td class="net-lbl">NET PAY</td>
+              <td class="net-val" id="netPay"></td>
+            </tr>
+            <tr>
+              <td colspan="2" class="words-val" id="netWords"></td>
+            </tr>
+          </tbody>
+        </table>
 
+        <!-- Bottom Footer Note -->
         <footer class="footer-note">
           <p class="payslip-note">
-            <strong>Note :</strong>
-            <em> All amounts displayed in this payslip are in <strong>INR</strong></em>
+            <strong>Note :</strong> <em>All amounts displayed in this payslip are in <strong>INR</strong></em>
           </p>
-          <p class="payslip-disclaimer">*This is computer generated statement, does not require signature.</p>
+          <p class="payslip-disclaimer">*This is a computer generated statement, does not require signature.</p>
         </footer>
       </section>
     </main>

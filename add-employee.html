@@ -70,18 +70,29 @@
           </section>
 
           <section class="form-section" aria-labelledby="sec-role">
-            <h3 id="sec-role" class="form-section-title">Role &amp; payroll</h3>
+            <h3 id="sec-role" class="form-section-title">Role, Location &amp; Payroll</h3>
             <div class="form-grid form-grid--employee">
               <label class="form-field">
                 <span class="form-label">Designation <abbr class="req" title="required">*</abbr></span>
                 <input name="designation" type="text" required placeholder="e.g. Software Engineer" />
               </label>
               <label class="form-field">
-                <span class="form-label">Payment mode</span>
-                <input name="paymentMode" type="text" value="Bank" placeholder="Bank" />
-                <span class="form-hint">Default is bank transfer</span>
+                <span class="form-label">Location</span>
+                <input name="location" type="text" value="BENGALURU" placeholder="e.g. BENGALURU" />
               </label>
-              <label class="form-field form-field--span">
+              <label class="form-field">
+                <span class="form-label">Payment mode</span>
+                <input name="paymentMode" type="text" value="BANK TRANSFER" placeholder="BANK TRANSFER" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Bank name</span>
+                <input name="bankName" type="text" placeholder="e.g. HDFC" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">Bank A/C No</span>
+                <input name="bankAccountNo" type="text" placeholder="e.g. 50100410597797" />
+              </label>
+              <label class="form-field">
                 <span class="form-label">Fixed salary (monthly gross, INR) <abbr class="req" title="required">*</abbr></span>
                 <input name="fixedSalary" type="number" min="0" step="0.01" required placeholder="0.00" />
                 <span class="form-hint">Monthly gross before pro‑rating for LOP</span>

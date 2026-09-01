@@ -24,7 +24,10 @@ form.addEventListener("submit", async (e) => {
       department: fd.get("department"),
       subDepartment: fd.get("subDepartment"),
       designation: fd.get("designation"),
-      paymentMode: fd.get("paymentMode") || "Bank",
+      location: fd.get("location") || "BENGALURU",
+      paymentMode: fd.get("paymentMode") || "BANK TRANSFER",
+      bankName: fd.get("bankName") || "HDFC",
+      bankAccountNo: fd.get("bankAccountNo") || "",
       pan,
       fixedSalary: fd.get("fixedSalary"),
       employeeNumber: fd.get("employeeNumber"),
@@ -35,7 +38,7 @@ form.addEventListener("submit", async (e) => {
     msg.hidden = false;
     form.reset();
     const pm = form.querySelector('[name="paymentMode"]');
-    if (pm) pm.value = "Bank";
+    if (pm) pm.value = "BANK TRANSFER";
   } catch (err) {
     msg.textContent = err.message || "Could not save.";
     msg.hidden = false;

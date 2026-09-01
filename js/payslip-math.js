@@ -1,54 +1,78 @@
-/**
- * Pro-rate monthly fixed salary by payable days; split earnings like sample slip; PF on Basic; PT pro-rated.
- */
-const EARNING_SPLITS = [
-  { label: "Basic", ratio: 9800 / 25934.17 },
-  { label: "HRA", ratio: 3900 / 25934.17 },
-  { label: "Special Allowance", ratio: 7214.17 / 25934.17 },
-  { label: "Travel Reimbursement (LTA)", ratio: 2500 / 25934.17 },
-  { label: "Newspaper & Books Reimbursement", ratio: 500 / 25934.17 },
-  { label: "Mobile & Internet Reimbursement", ratio: 2000 / 25934.17 },
-];
-
-const PF_RATE = 0.12;
-const PF_MONTHLY_CAP = 1800;
-
 function round2(n) {
-  return Math.round(n * 100) / 100;
+  return Math.round((n + Number.EPSILON) * 100) / 100;
 }
 
-export function computePayslipPayload({ employee, monthYear, totalWorkingDays, lossOfPayDays }) {
+export function computePayslipPayload({
+  employee,
+  monthYear,
+  totalWorkingDays,
+  lossOfPayDays,
+  clDays = 0,
+  slDays = 0,
+  plDays = 0,
+  includePF = false,
+  includePT = false,
+}) {
   const twd = Math.max(Number(totalWorkingDays) || 0, 0.0001);
   const lop = Math.max(Number(lossOfPayDays) || 0, 0);
-  const daysPayable = Math.max(twd - lop, 0);
-  const ratio = Math.min(Math.max(daysPayable / twd, 0), 1);
+  const daysWorked = Math.max(twd - lop, 0);
+  const ratio = Math.min(Math.max(daysWorked / twd, 0), 1);
 
-  const fixedSalary = Number(employee.fixedSalary) || 0;
-  const gross = round2(fixedSalary * ratio);
+  const fixedSalary = round2(Number(employee.fixedSalary) || 0);
 
-  const rawParts = EARNING_SPLITS.map((row) => ({
-    label: row.label,
-    amount: gross * row.ratio,
-  }));
-  const sumRaw = rawParts.reduce((a, r) => a + r.amount, 0);
-  const drift = gross - sumRaw;
-  if (rawParts.length) {
-    rawParts[rawParts.length - 1].amount = round2(rawParts[rawParts.length - 1].amount + drift);
+  // Calculate Fixed Earnings Components
+  let fixedBasic = round2(fixedSalary * 0.30);
+  let fixedHra = round2(fixedBasic * 0.50);
+  let fixedChildEdu = fixedSalary >= 10000 ? 200 : 0;
+  let fixedLta = round2(fixedSalary * 0.025);
+  let fixedOther = Math.max(0, round2(fixedSalary - (fixedBasic + fixedHra + fixedChildEdu + fixedLta)));
+
+  // If fixedOther is 0 due to low salary, balance with Basic/HRA
+  if (fixedSalary < 10000) {
+    fixedBasic = round2(fixedSalary * 0.50);
+    fixedHra = round2(fixedSalary * 0.30);
+    fixedChildEdu = 0;
+    fixedLta = 0;
+    fixedOther = Math.max(0, round2(fixedSalary - (fixedBasic + fixedHra)));
   }
-  const earnings = rawParts.map((r) => ({ label: r.label, amount: round2(r.amount) }));
 
-  const basic = earnings[0]?.amount || 0;
+  // Earned Earnings Components pro-rated by worked days ratio
+  const earnedBasic = round2(fixedBasic * ratio);
+  const earnedHra = round2(fixedHra * ratio);
+  const earnedChildEdu = round2(fixedChildEdu * ratio);
+  const earnedLta = round2(fixedLta * ratio);
+  const earnedOther = round2(fixedOther * ratio);
 
-  // Fixed Professional Tax as per user requirement
-  const pt = 200;
+  const earnings = [
+    { label: "BASIC", fixedAmount: fixedBasic, amount: earnedBasic },
+    { label: "HRA", fixedAmount: fixedHra, amount: earnedHra },
+    { label: "CHILDREN EDUCATION ALLOWANCE", fixedAmount: fixedChildEdu, amount: earnedChildEdu },
+    { label: "LTA", fixedAmount: fixedLta, amount: earnedLta },
+    { label: "OTHER ALLOWANCE", fixedAmount: fixedOther, amount: earnedOther },
+  ];
 
-  const contributions = [];
-  const deductions = [{ label: "Professional Tax", amount: pt }];
+  const totalFixedEarnings = round2(fixedBasic + fixedHra + fixedChildEdu + fixedLta + fixedOther);
+  const totalEarnedEarnings = round2(earnedBasic + earnedHra + earnedChildEdu + earnedLta + earnedOther);
 
-  const totalEarnings = earnings.reduce((a, x) => a + x.amount, 0);
-  const totalB = contributions.reduce((a, x) => a + x.amount, 0);
-  const totalC = deductions.reduce((a, x) => a + x.amount, 0);
-  const net = round2(totalEarnings - totalB - totalC);
+  // Deductions: PF (>15,000) & PT (>20,000)
+  const deductions = [];
+  
+  // PF rule: Applicable only for fixed salary > 15,000
+  const isPFEligible = fixedSalary > 15000;
+  if (includePF && isPFEligible) {
+    // 12% of basic capped at 1800 (standard Indian PF rule)
+    const pfAmount = Math.min(1800, round2(earnedBasic * 0.12) || 1800);
+    deductions.push({ label: "PROVIDENT FUND", amount: pfAmount });
+  }
+
+  // PT rule: Applicable only for fixed salary > 20,000
+  const isPTEligible = fixedSalary > 20000;
+  if (includePT && isPTEligible) {
+    deductions.push({ label: "PROFESSIONAL TAX", amount: 200.00 });
+  }
+
+  const totalDeductions = round2(deductions.reduce((sum, item) => sum + item.amount, 0));
+  const netPay = round2(totalEarnedEarnings - totalDeductions);
 
   return {
     monthYear,
@@ -59,31 +83,37 @@ export function computePayslipPayload({ employee, monthYear, totalWorkingDays, l
       address3: "Karnataka 560084",
     },
     employee: {
-      name: employee.name,
+      name: employee.name || "—",
       employeeNumber: employee.employeeNumber || "—",
       dateJoined: formatDisplayDate(employee.dateJoined),
-      department: employee.department || "—",
-      subDepartment: employee.subDepartment || "N/A",
       designation: employee.designation || "—",
-      paymentMode: employee.paymentMode === "Bank" ? "Bank Transfer" : employee.paymentMode || "—",
-      uan: employee.uan || "—",
+      department: employee.department || "—",
+      location: employee.location || "BENGALURU",
+      paymentMode: employee.paymentMode || "BANK TRANSFER",
+      bankName: employee.bankName || "HDFC",
+      bankAccountNo: employee.bankAccountNo || "—",
       pfNumber: employee.pfNumber || "—",
       pan: employee.pan || "—",
+      uan: employee.uan || "—",
+      fixedSalary,
+      isPFEligible,
+      isPTEligible,
     },
     days: {
-      actualPayableDays: round2(daysPayable),
-      totalWorkingDays: round2(twd),
-      lossOfPayDays: round2(lop),
-      daysPayable: Math.round(daysPayable * 100) / 100,
+      standardDays: round2(twd),
+      workedDays: round2(daysWorked),
+      lopDays: round2(lop),
+      clDays: round2(Number(clDays) || 0),
+      slDays: round2(Number(slDays) || 0),
+      plDays: round2(Number(plDays) || 0),
     },
     earnings,
-    contributions,
     deductions,
     totals: {
-      earnings: totalEarnings,
-      contributions: totalB,
-      deductions: totalC,
-      net,
+      fixedEarnings: totalFixedEarnings,
+      earnedEarnings: totalEarnedEarnings,
+      deductions: totalDeductions,
+      netPay,
     },
   };
 }
@@ -92,5 +122,8 @@ function formatDisplayDate(iso) {
   if (!iso) return "—";
   const d = new Date(iso + "T12:00:00");
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
 }

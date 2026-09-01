@@ -2,31 +2,54 @@
   "employees": [
     {
       "id": "sample-1",
+      "name": "PREMA K",
+      "dateJoined": "2023-06-01",
+      "department": "LAND ACQUISITION",
+      "subDepartment": "LAND ACQUISITION",
+      "designation": "SENIOR EXECUTIVE",
+      "location": "BENGALURU",
+      "paymentMode": "BANK TRANSFER",
+      "bankName": "HDFC",
+      "bankAccountNo": "50100410597797",
+      "pan": "GFCPP1004Q",
+      "fixedSalary": 25048.00,
+      "employeeNumber": "CG52926",
+      "uan": "101954830229",
+      "pfNumber": "BG/BNG/2358828/10686"
+    },
+    {
+      "id": "sample-2",
       "name": "NISHMITHA S",
       "dateJoined": "2025-08-01",
       "department": "Software Development",
       "subDepartment": "Software Development",
       "designation": "Software Engineer",
-      "paymentMode": "Bank",
+      "location": "BENGALURU",
+      "paymentMode": "BANK TRANSFER",
+      "bankName": "ICICI BANK",
+      "bankAccountNo": "624101509123",
       "pan": "OSCPS8207M",
-      "fixedSalary": 21000.00,
+      "fixedSalary": 18000.00,
       "employeeNumber": "PJNE2061",
-      "uan": " ",
-      "pfNumber": " "
+      "uan": "100912839120",
+      "pfNumber": "PY/KRP/0019283/000/0012"
     },
     {
-      "id": "sample-2",
+      "id": "sample-3",
       "name": "Keerthan Vijayakumar",
       "dateJoined": "2025-07-03",
       "department": "Marketing",
       "subDepartment": "Digital Marketing",
       "designation": "Marketing Manager",
-      "paymentMode": "Bank",
+      "location": "BENGALURU",
+      "paymentMode": "BANK TRANSFER",
+      "bankName": "SBI",
+      "bankAccountNo": "30918274912",
       "pan": "CCXPV3159E",
-      "fixedSalary": 21000.00,
+      "fixedSalary": 14000.00,
       "employeeNumber": "PJNE2062",
-      "uan": " ",
-      "pfNumber": " "
+      "uan": "100812391201",
+      "pfNumber": "PY/KRP/0019283/000/0013"
     }
   ]
 }

@@ -75,17 +75,59 @@
           </section>
 
           <section class="form-section" aria-labelledby="sec-attendance">
-            <h3 id="sec-attendance" class="form-section-title">Attendance</h3>
+            <h3 id="sec-attendance" class="form-section-title">Attendance &amp; Leave Days</h3>
             <div class="form-grid form-grid--employee">
               <label class="form-field">
-                <span class="form-label">Total working days in month <abbr class="req" title="required">*</abbr></span>
-                <input name="totalWorkingDays" type="number" min="0.5" step="0.5" value="31" required />
-                <span class="form-hint">Company working days in this month (e.g. 22 or 31).</span>
+                <span class="form-label">Standard Days <abbr class="req" title="required">*</abbr></span>
+                <input name="totalWorkingDays" type="number" min="0.5" step="0.5" value="31.0" required />
+                <span class="form-hint">Total working days in month (e.g. 31.0)</span>
               </label>
               <label class="form-field">
-                <span class="form-label">Loss of pay (LOP) days</span>
-                <input name="lossOfPayDays" type="number" min="0" step="0.5" value="0" />
-                <span class="form-hint">Unpaid leave; salary is pro‑rated from fixed gross.</span>
+                <span class="form-label">Loss of Pay (LOP) Days</span>
+                <input name="lossOfPayDays" type="number" min="0" step="0.5" value="0.0" />
+                <span class="form-hint">Unpaid leave days</span>
+              </label>
+              <label class="form-field">
+                <span class="form-label">CL Days (Casual Leave)</span>
+                <input name="clDays" type="number" min="0" step="0.5" value="0.0" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">SL Days (Sick Leave)</span>
+                <input name="slDays" type="number" min="0" step="0.5" value="0.0" />
+              </label>
+              <label class="form-field">
+                <span class="form-label">PL Days (Privilege Leave)</span>
+                <input name="plDays" type="number" min="0" step="0.5" value="0.0" />
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section" aria-labelledby="sec-deductions">
+            <h3 id="sec-deductions" class="form-section-title">Deductions Selection (PF &amp; PT)</h3>
+            <p class="form-hint" style="margin-top:-6px; margin-bottom:12px;">
+              Dynamic eligibility based on employee salary rules: <strong>PF</strong> applicable above ₹15,000 | <strong>Professional Tax</strong> applicable above ₹20,000.
+            </p>
+            <div class="deduction-checkbox-container" style="display:flex; flex-direction:column; gap:12px;">
+              <label class="checkbox-card" style="display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border:1px solid var(--border-color, #e0e0e0); border-radius:8px; background:var(--card-bg, #fafafa); cursor:pointer;">
+                <input type="checkbox" id="chkPF" name="includePF" style="width:20px; height:20px; margin-top:2px; cursor:pointer;" />
+                <div class="checkbox-info" style="flex:1;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <strong style="font-size:14px;">Provident Fund (PF)</strong>
+                    <span id="pfBadge" class="badge" style="font-size:11px; font-weight:600; padding:2px 8px; border-radius:12px; background:#e2e8f0; color:#475569;">Select employee to check</span>
+                  </div>
+                  <p class="form-hint" style="margin:2px 0 0; font-size:12px;">Only applicable for employees with salary above ₹15,000 (12% of basic up to max ₹1,800).</p>
+                </div>
+              </label>
+
+              <label class="checkbox-card" style="display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border:1px solid var(--border-color, #e0e0e0); border-radius:8px; background:var(--card-bg, #fafafa); cursor:pointer;">
+                <input type="checkbox" id="chkPT" name="includePT" style="width:20px; height:20px; margin-top:2px; cursor:pointer;" />
+                <div class="checkbox-info" style="flex:1;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <strong style="font-size:14px;">Professional Tax (PT)</strong>
+                    <span id="ptBadge" class="badge" style="font-size:11px; font-weight:600; padding:2px 8px; border-radius:12px; background:#e2e8f0; color:#475569;">Select employee to check</span>
+                  </div>
+                  <p class="form-hint" style="margin:2px 0 0; font-size:12px;">Only applicable for employees with salary above ₹20,000 (Flat ₹200.00).</p>
+                </div>
               </label>
             </div>
           </section>
