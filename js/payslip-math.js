@@ -57,12 +57,10 @@ export function computePayslipPayload({
   // Deductions: PF (>15,000) & PT (>20,000)
   const deductions = [];
   
-  // PF rule: Applicable only for fixed salary > 15,000
+  // PF rule: Applicable only for fixed salary > 15,000 (Flat ₹1,800)
   const isPFEligible = fixedSalary > 15000;
   if (includePF && isPFEligible) {
-    // 12% of basic capped at 1800 (standard Indian PF rule)
-    const pfAmount = Math.min(1800, round2(earnedBasic * 0.12) || 1800);
-    deductions.push({ label: "PROVIDENT FUND", amount: pfAmount });
+    deductions.push({ label: "PROVIDENT FUND", amount: 1800.00 });
   }
 
   // PT rule: Applicable only for fixed salary > 20,000
