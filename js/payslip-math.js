@@ -76,9 +76,9 @@ export function computePayslipPayload({
     monthYear,
     company: {
       name: "PJN TECHNOLOGIES PVT LTD",
-      address1: "Room No 2, 2nd floor opp to Tea Master Nehru Road, kullapa circle,",
-      address2: "Ramaswamipalya, Kammanahalli, Bengaluru,",
-      address3: "Karnataka 560084",
+      address1: "Banaswadi Ring Road, 165, 7th Cross Rd, opp. to BWSSB over Head Tank,",
+      address2: "Babusapalya, Banaswadi, Bengaluru,",
+      address3: "Karnataka 560113",
     },
     employee: {
       name: employee.name || "—",

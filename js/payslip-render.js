@@ -70,9 +70,9 @@ function setText(id, text) {
 export function renderPayslip(p) {
   // Header - Always enforce PJN TECHNOLOGIES PVT LTD
   setText("companyName", "PJN TECHNOLOGIES PVT LTD");
-  setText("companyAddress1", "Room No 2, 2nd floor opp to Tea Master Nehru Road, kullapa circle,");
-  setText("companyAddress2", "Ramaswamipalya, Kammanahalli, Bengaluru,");
-  setText("companyAddress3", "Karnataka 560084");
+  setText("companyAddress1", (p.company && p.company.address1) || "Banaswadi Ring Road, 165, 7th Cross Rd, opp. to BWSSB over Head Tank,");
+  setText("companyAddress2", (p.company && p.company.address2) || "Babusapalya, Banaswadi, Bengaluru,");
+  setText("companyAddress3", (p.company && p.company.address3) || "Karnataka 560113");
   setText("monthYear", p.monthYear);
 
   // Table 1: Employee Details
